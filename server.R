@@ -122,6 +122,22 @@ server = function(input, output, session) {
     #  showNotification(raster_path())
   })
 
+  # Action button to reset choices
+  observe({
+     if (input$Uncheck > 0) {
+        updateCheckboxGroupInput(session = session,
+                                 inputId = 'layersTable',
+                                 label = '',
+                                 choiceNames = layers$Drivers,
+                                 choiceValues = layers$FileName)
+     }
+   })
+
+
+
+
+
+
 # # plot latitudinal trends
 #   output$trendLat1 <- renderPlot({
 #       if (!'raster0' %in% sel_layers()) {

@@ -135,15 +135,32 @@ ui <- bootstrapPage(
         background-color: #ffffff;
         border: #8c8c8c;
         color: black;
-        padding: 3px 3px;
+        padding: 3.25px 3.25px;
         display: inline-block;
         box-shadow: 0.5px 0.5px 0.5px 1px #bbbbbb;
     }
+    #Uncheck {
+      background-color: #ffffff;
+      border: #8c8c8c;
+      color: black;
+      padding: 3px 6px;
+      display: inline-block;
+      border-radius: 0px;
+      margin-top:-5%
+    }
+
     "
   ),
-
+# fluidRow(
+#   column(9,
+#
+#   ),
+#   column(3,
+#
+#   )
+# )
 # Map output
-leafletOutput(outputId = "map", width = '100%', height = '100%'),
+leafletOutput(outputId = "map", width = '80%', height = '100%'),
 
 # Check box output to select drivers to visualize
 absolutePanel(id        = 'checkPanel1',
@@ -152,6 +169,7 @@ absolutePanel(id        = 'checkPanel1',
               top       = '130',
               height    = '610px',
               HTML('<button data-toggle="collapse" data-target="#demo">&nbsp;&#8689;&nbsp;</button>'),
+              actionButton("Uncheck", label = '', icon = icon('sync')),
               tags$div(id = 'demo',  class="collapse in",
               absolutePanel(id = 'checkPanel2',
                             draggable = TRUE,
