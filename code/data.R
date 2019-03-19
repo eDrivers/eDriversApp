@@ -48,6 +48,9 @@ for(i in 1:length(hotspots)) {
 drivers <- stack(drivers)
 hotspots <- stack(hotspots)
 
+# Round drivers data
+drivers <- round(drivers, 2)
+
 # Export drivers and hotspots list
 save(drivers, file = './data/drivers.RData')
 save(hotspots, file = './data/hotspots.RData')
