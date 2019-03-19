@@ -237,7 +237,6 @@ id <- which(driversList$FileName %in% sel) # Id of selections in data table
 # ~~~~~~~~~~~~~~~ NO DRIVER ~~~~~~~~~~~~~~~~ #
 if (nSel == 0) {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-plot(1)
 # ~~~~~~~~~~~~~ SINGLE DRIVER ~~~~~~~~~~~~~~ #
 } else if(nSel == 1) {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #

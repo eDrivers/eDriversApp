@@ -121,7 +121,7 @@ hr {
   background-color: #ffffff;
   margin-left:      1%;
   margin-right:     1%;
-  margin-top:       2%;
+  margin-top:       1%;
   overflow-y:       scroll;
 }
 
@@ -240,7 +240,6 @@ absolutePanel(id = 'checkPanel1',
                             # Drivers table
                             checkboxGroupInput(inputId = 'layersTable',
                                                label = '',
-                                               selected = c('Aragonite','Hypoxia'),
                                                choiceNames = layers$Drivers,
                                                choiceValues = layers$FileName)
 
