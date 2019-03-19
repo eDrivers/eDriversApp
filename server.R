@@ -7,23 +7,31 @@ server = function(input, output, session) {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-# Reactive object to get selection from user
-sel_layers <- reactive({
-  pos <- input$layersTable
-  if (length(pos) > 0){
-    pos
-  } else {
-    'raster0'
-  }
-})
-
 # Loading raster
 ras <- reactive({
-  sel <- sel_layers()
-  if (length(sel) > 1) {
-    Reduce("+",drivers[sel])
-  } else {
-    drivers[sel][[1]]
+  # Selected drivers
+  sel <- input$layersTable
+
+  # Selected type of data (footprint vs hotspot)
+  type <- input$dataType
+
+  # Select proper layer depending on user selection
+  if (length(sel) == 0) {
+    raster0
+  } else if (length(sel) == 1){
+  if(type == 'footprint') {
+      drivers[[sel]]
+    } else {
+      hotspots[[sel]]
+    }
+  } else if (length(sel) > 1) {
+    if(type == 'footprint') {
+      sum(drivers[[sel]], na.rm = T) %>%
+      calc(function(x) ifelse(x == 0, NA, x))
+    } else {
+      sum(hotspots[[sel]], na.rm = T) %>%
+      calc(function(x) ifelse(x == 0, NA, x))
+    }
   }
   # crs = "+init=epsg:3857")
 })

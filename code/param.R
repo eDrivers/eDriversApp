@@ -22,10 +22,11 @@ load('./data/egslSimple.RData')
 data(driversList)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~   RASTER0   ~~~~~~~~~~~~~~~~~~~~~~~~~ #
+prj <- "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs"
 raster0 <- raster(vals = NA,
                   nrow = 1,
                   ncol = 1,
-                  ext = extent(get(dr[1])),
+                  ext = extent(drivers),
                   crs = prj)
 
 

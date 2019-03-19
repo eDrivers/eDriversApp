@@ -46,7 +46,7 @@ for(i in 1:length(hotspots)) {
 
 # Transform into raster stacks
 drivers <- stack(drivers)
-hotspots <- stack(drivers)
+hotspots <- stack(hotspots)
 
 # Export drivers and hotspots list
 save(drivers, file = './data/drivers.RData')

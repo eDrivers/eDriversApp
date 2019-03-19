@@ -11,6 +11,7 @@ useShinyjs(),
 tags$style(
 type = "text/css",
 "
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GENERAL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 html, body {
   width:   100%;
   height:  100%;
@@ -21,6 +22,68 @@ html, body {
   margin-top:    0px;
   margin-bottom: 0px;
 }
+
+label.control-label,
+.selectize-input,
+.selectize-dropdown,
+
+.control-label {
+  padding-top:    10px;
+  padding-bottom: 10px;
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FONTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+h1 {
+  font-family: 'Source Sans Pro';
+  font-weight: 300;
+  color:       #C77F20;
+  text-align:  center;
+}
+h2 {
+  font-family:    'Playfair Display', serif;
+  color:          #C77F20;
+  text-align:     left;
+  font-size:      20px;
+  margin-top:     2%;
+  margin-bottom:  2%;
+}
+h3 {
+  font-family:    'Josefin Slab', serif;
+  font-weight:    bold;
+  color:          #5f5f5f;
+  text-align:     left;
+  font-size:      14px;
+  margin-top:     2%;
+  margin-bottom:  2%;
+}
+h4 {
+  font-family:  'Josefin Slab', serif;
+  text-align:   center;
+  color:        #555;
+  font-size:    16px;
+}
+h5 {
+  font-family:    'Josefin Slab', serif;
+  color:          #000000;
+  text-align:     left;
+  font-weight:    100;
+  font-size:      16px;
+  font-weight:    bold;
+  margin-top:     5%;
+  margin-left:    5%;
+}
+hr {
+  color:          #4e4e4e99;
+  border:         1px solid;
+  margin-top:     0%;
+  margin-bottom:  0%;
+  margin-left:    10%;
+  margin-right:   10%;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INTERACTIVE MAP ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 #map {
   margin:        0;
   margin-left:   0%;
@@ -31,6 +94,12 @@ html, body {
   border-radius: 0px;
   z-index:       0;
 }
+.legend {
+  width:       150px;
+  font-family: 'Josefin Slab', serif;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PANELS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 #checkPanel2 {
   border:           2px solid #888;
   background-color: #ffffff;
@@ -41,73 +110,64 @@ html, body {
   margin-top:       10%;
   height:           100%;
 }
-#layersTable {
-  font-size:    12px;
-  margin-top: -11%;
-  margin-left: 4%;
-  background-color: #ffffff00;
-  font-family: 'Josefin Slab', serif;
-}
+
 #infoPanel {
   background-color: #ffffff;
 }
-.legend {
-  width: 150px;
-  font-family: 'Josefin Slab', serif;
-}
-h1 {
-  font-family: 'Source Sans Pro';
-  font-weight: 300;
-  color:       #C77F20;
-  text-align:  center;
-}
-h2 {
-  font-family: 'Playfair Display', serif;
-  color:          #C77F20;
-  text-align:     left;
-  font-size:      20px;
-  margin-top:     2%;
-  margin-bottom:  2%;
-}
-h3 {
-  font-family: 'Josefin Slab', serif;
-  font-weight:    bold;
-  color:          #5f5f5f;
-  text-align:     left;
-  font-size:      14px;
-  margin-top:     2%;
-  margin-bottom:  2%;
-}
-h4 {
-  font-family: 'Josefin Slab', serif;
-  text-align: center;
-  color:      #555;
-  font-size:  16px;
-}
-h5 {
-  font-family: 'Josefin Slab', serif;
-  color:          #000000;
-  text-align:     left;
-  font-weight:    100;
-  font-size:      16px;
-  font-weight:    bold;
-  margin-top:     5%;
-  margin-left:    5%;
-}
-hr {
-  color: #4e4e4e99;
-  border: 1px solid;
-  margin-top: 0%;
-  margin-bottom:  0%;
-  margin-left:  10%;
-  margin-right:  10%;
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ TABLES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+#dataType {
+  font-size:        12px;
+  margin-top:       -5%;
+  margin-left:      4%;
+  font-weight:      200;
+  background-color: #ffffff00;
+  font-family:      'Josefin Slab', serif;
 }
 
-label.control-label,
-.selectize-input,
-.selectize-dropdown,
+#layersTable {
+  font-size:        12px;
+  margin-top:       -5%;
+  margin-left:      4%;
+  background-color: #ffffff00;
+  font-family:      'Josefin Slab', serif;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ BUTTONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+button {
+  background-color: #ffffff;
+  border:           #8c8c8c;
+  color:            black;
+  padding:          3px 3.1px;
+  display:          inline-block;
+  box-shadow:       0.5px 0.5px 0.5px 1px #bbbbbb;
+}
+#Uncheck {
+  background-color: #ffffff;
+  border:           #8c8c8c;
+  color:            black;
+  padding:          3px 7px;
+  display:          inline-block;
+  border-radius:    0px;
+  margin-top:       -4%
+}
+#CheckAll {
+  background-color: #ffffff;
+  border: #8c8c8c;
+  color: black;
+  padding: 3px 7px;
+  display: inline-block;
+  border-radius: 0px;
+  margin-top:-4%
+}
+div.radio {
+  margin-top:     0px;
+  margin-bottom:  0px;
+  padding-bottom: 5px;
+}
 
 
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PLOTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 #trendLat1 {
   font-family: 'Josefin Slab', serif;
   margin-top:     3%;
@@ -123,43 +183,9 @@ label.control-label,
 }
 
 
-.control-label {
-  padding-top:    10px;
-  padding-bottom: 10px;
-}
 
-div.radio {
-  margin-top:     0px;
-  margin-bottom:  0px;
-  padding-bottom: 5px;
-}
 
-button {
-  background-color: #ffffff;
-  border: #8c8c8c;
-  color: black;
-  padding: 3px 3.1px;
-  display: inline-block;
-  box-shadow: 0.5px 0.5px 0.5px 1px #bbbbbb;
-}
-#Uncheck {
-  background-color: #ffffff;
-  border: #8c8c8c;
-  color: black;
-  padding: 3px 7px;
-  display: inline-block;
-  border-radius: 0px;
-  margin-top:-4%
-}
-#CheckAll {
-  background-color: #ffffff;
-  border: #8c8c8c;
-  color: black;
-  padding: 3px 7px;
-  display: inline-block;
-  border-radius: 0px;
-  margin-top:-4%
-}
+
 "
 ),
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
@@ -173,7 +199,7 @@ absolutePanel(id = 'checkPanel1',
               draggable = FALSE,
               left = '14',
               top = '130',
-              height = '610px',
+              height = '660px',
 
               # Collapse button
               HTML('<button data-toggle="collapse" data-target="#demo">&nbsp;&#8689;&nbsp;</button>'),
@@ -190,10 +216,23 @@ absolutePanel(id = 'checkPanel1',
                             draggable = TRUE,
                             h5('Drivers'),
                             hr(),
+
+                            # Hotspots vs footprint choice
+                            radioButtons(inputId = 'dataType',
+                                         label = '',
+                                         inline = T,
+                                         choiceNames = c('Footprint','Hotspots'),
+                                         choiceValues = c('footprint','hotspots'),
+                                         selected = 'footprint'),
+
+                            hr(),
+
+                            # Drivers table
                             checkboxGroupInput(inputId = 'layersTable',
                                                label = '',
                                                choiceNames = layers$Drivers,
                                                choiceValues = layers$FileName)
+
         ))),
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
