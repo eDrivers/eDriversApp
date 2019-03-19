@@ -19,7 +19,7 @@ library(eDrivers)
 load('./data/drivers.RData')
 load('./data/hotspots.RData')
 load('./data/egslSimple.RData')
-data(driversList)
+load('./data/datatable.RData')
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~   FUNCTIONS   ~~~~~~~~~~~~~~~~~~~~~~~~~ #
 source('./code/histDriver.R')

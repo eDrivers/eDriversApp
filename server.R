@@ -199,7 +199,7 @@ HTML({
     '<h4><b>Spatial resolution</b>: ',driversList$SpatRes[id],'<h4/>',
     '<h4><b>Temporal resolution</b>: ',driversList$TempRes[id],'<h4/>',
     '<h4><b>Years</b>: ',driversList$Years[id],'<h4/>',
-    '<h4><b>Units</b>: ',driversList$Units[id],'<h4/>',
+    '<h4><b>Units</b>: ',withMathJax(driversList$Units[id]),'<h4/>',
     '<h4><b>Source</b>: ',driversList$Source[id],'<h4/>',
     '<br/>',
     '<h3>Data transformations<h3/>',

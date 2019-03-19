@@ -4,6 +4,7 @@ source('./code/param.R')
 # User interface setup
 ui <- bootstrapPage(
 useShinyjs(),
+withMathJax(),
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CSS STYLE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
@@ -255,7 +256,7 @@ absolutePanel(id = 'infoPanel',
               bottom = '0',
               left = '80%',
               htmlOutput('descrData'),
-              div(plotOutput('condPlot',  width = '90%'), align = 'center')
+              div(plotOutput('condPlot',  width = '90%', height = '300px'), align = 'center')
              )
 
 
