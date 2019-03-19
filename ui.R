@@ -36,14 +36,18 @@ label.control-label,
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FONTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 h1 {
-  font-family: 'Source Sans Pro';
-  font-weight: 300;
-  color:       #C77F20;
-  text-align:  center;
+  font-family:    'Source Sans Pro';
+  font-weight:    300;
+  color:          #C77F20;
+  text-align:     left;
+  font-size:      30px;
+  font-style:     italic;
+  margin-top:     2%;
+  margin-bottom:  2%;
 }
 h2 {
   font-family:    'Playfair Display', serif;
-  color:          #C77F20;
+  color:          #5f5f5f;
   text-align:     left;
   font-size:      20px;
   margin-top:     2%;
@@ -54,23 +58,25 @@ h3 {
   font-weight:    bold;
   color:          #5f5f5f;
   text-align:     left;
-  font-size:      14px;
+  font-size:      18px;
   margin-top:     2%;
   margin-bottom:  2%;
 }
 h4 {
-  font-family:  'Josefin Slab', serif;
-  text-align:   center;
-  color:        #555;
-  font-size:    16px;
+  font-family:    'Josefin Slab', serif;
+  text-align:     justify;
+  color:          #555;
+  font-size:      14px;
+  margin-left:    4%;
 }
 h5 {
   font-family:    'Josefin Slab', serif;
-  color:          #000000;
+  color:          #C77F20;
   text-align:     left;
   font-weight:    100;
   font-size:      16px;
   font-weight:    bold;
+  font-style:     italic;
   margin-top:     5%;
   margin-left:    5%;
 }
@@ -113,6 +119,10 @@ hr {
 
 #infoPanel {
   background-color: #ffffff;
+  margin-left:      1%;
+  margin-right:     1%;
+  margin-top:       2%;
+  overflow-y:       scroll;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ TABLES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -230,6 +240,7 @@ absolutePanel(id = 'checkPanel1',
                             # Drivers table
                             checkboxGroupInput(inputId = 'layersTable',
                                                label = '',
+                                               selected = c('Aragonite','Hypoxia'),
                                                choiceNames = layers$Drivers,
                                                choiceValues = layers$FileName)
 
@@ -243,7 +254,10 @@ absolutePanel(id = 'infoPanel',
               right = '0',
               top = '0',
               bottom = '0',
-              left = '80%')
+              left = '80%',
+              htmlOutput('descrData'),
+              div(plotOutput('condPlot',  width = '90%'), align = 'center')
+             )
 
 
 

@@ -154,6 +154,101 @@ observe({
  })
 
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CONDITIONAL PANEL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+output$descrData <- renderUI({
+# ~~~~~~~~~~~~~~~ PARAMETERS ~~~~~~~~~~~~~~~ #
+sel <- input$layersTable
+nSel <- length(sel)
+id <- which(driversList$FileName %in% sel)
+
+# ~~~~~~~~~~~~~~~ NO DRIVER ~~~~~~~~~~~~~~~~ #
+if (nSel == 0) {
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+HTML({
+  paste(
+    '<h1>','eDrivers','<h1/>',
+    '<br/>',
+    '<hr /><div class="pad">',
+    '<br/>',
+    '<h3>Context<h3/>',
+    '<h4>', context,'<h4/>',
+    '<br/>',
+    '<h4>', context,'<h4/>',
+    '<br/>',
+    '<h3>Guiding principles<h3/>',
+    '<h4>', guiding,'<h4/>'
+
+  )
+})
+
+# ~~~~~~~~~~~~~ SINGLE DRIVER ~~~~~~~~~~~~~~ #
+} else if(nSel == 1) {
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+HTML({
+  paste(
+    '<h1>',driversList$Groups[id],'<h1/>',
+    '<h2>',driversList$Drivers[id],'<h2/>',
+    '<br/>',
+    '<hr /><div class="pad">',
+    '<br/>',
+    '<h3>Overview<h3/>',
+    '<br/>',
+    '<h3>Data description<h3/>',
+    '<h4><b>Spatial resolution</b>: ',driversList$SpatRes[id],'<h4/>',
+    '<h4><b>Temporal resolution</b>: ',driversList$TempRes[id],'<h4/>',
+    '<h4><b>Years</b>: ',driversList$Years[id],'<h4/>',
+    '<h4><b>Units</b>: ',driversList$Units[id],'<h4/>',
+    '<h4><b>Source</b>: ',driversList$Source[id],'<h4/>',
+    '<br/>',
+    '<h3>Data transformations<h3/>',
+    '<br/>',
+    '<h3>Methodology<h3/>'
+  )
+})
+
+# ~~~~~~~~~~~~ MULTIPLE DRIVERS ~~~~~~~~~~~~ #
+} else if(nSel > 1) {
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+HTML({
+  paste(
+    '<h1>','Driver footprint','<h1/>',
+    '<br/>',
+    '<hr /><div class="pad">',
+    '<br/>'
+  )
+})
+}
+})
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CONDITIONAL PLOTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+output$condPlot <- renderPlot({
+
+# ~~~~~~~~~~~~~~~ PARAMETERS ~~~~~~~~~~~~~~~ #
+sel <- input$layersTable # Selected drivers
+type <- input$dataType # Selected data types between footprint and hotspots
+nSel <- length(sel) # Number of selections
+id <- which(driversList$FileName %in% sel) # Id of selections in data table
+
+# ~~~~~~~~~~~~~~~ NO DRIVER ~~~~~~~~~~~~~~~~ #
+if (nSel == 0) {
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+plot(1)
+# ~~~~~~~~~~~~~ SINGLE DRIVER ~~~~~~~~~~~~~~ #
+} else if(nSel == 1) {
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+  if (type == 'footprint') histDriver(ras())
+# ~~~~~~~~~~~~ MULTIPLE DRIVERS ~~~~~~~~~~~~ #
+} else if(nSel > 1) {
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+  if (type == 'footprint') histFd(ras())
+}
+})
+
 
 
 
