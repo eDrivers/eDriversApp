@@ -11,6 +11,10 @@ dr <- driversList$FileName
 # Load all driver layers
 data(list = dr)
 
+# Transform raster projections
+prj <- "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs"
+for(i in dr) assign(i, raster::projectRaster(get(i), crs = prj))
+
 # Normalize drivers (to remove later)
 quantNorm <- function(x) {
   id <- x > 0
@@ -20,10 +24,6 @@ quantNorm <- function(x) {
   x
 }
 for(i in dr) assign(i, quantNorm(get(i)))
-
-# Transform raster projections
-prj <- "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs"
-for(i in dr) assign(i, raster::projectRaster(get(i), crs = prj))
 
 # Embed drivers in a list
 drivers <- mget(dr)
@@ -44,17 +44,9 @@ for(i in 1:length(hotspots)) {
   hotspots[[i]] <- calc(hotspots[[i]], fun = function(x) ifelse(x > th, 1, NA))
 }
 
-# Make raster0
-raster0 <- raster(vals = NA,
-                  nrow = 1,
-                  ncol = 1,
-                  ext = extent(get(dr[1])),
-                  crs = prj)
-
-
-# Embed drivers and hotspots with raster0
-drivers$raster0 <- raster0
-hotspots$raster0 <- raster0
+# Transform into raster stacks
+drivers <- stack(drivers)
+hotspots <- stack(drivers)
 
 # Export drivers and hotspots list
 save(drivers, file = './data/drivers.RData')
