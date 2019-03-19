@@ -36,14 +36,3 @@ cols <- c('#C7CBCE','#96A3A3','#687677','#222D3D','#25364A','#C77F20','#E69831',
 # ~~~~~~~~~~~~~~~~~~~~~~~~~   FONTS   ~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # font_add_google(name = 'Josefin Slab')
 # bodyName <- 'Josefin Slab'
-
-
-quantNorm <- function(x) {
-  id <- x > 0
-  x <- x / quantile(x[id], probs = .99, na.rm = T)
-  x[x > 1] <- 1
-  x[x < 0] <- 0
-  x
-}
-
-for(i in 1:length(drivers)) values(drivers[[i]]) <- quantNorm(values(drivers[[i]]))

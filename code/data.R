@@ -11,7 +11,7 @@ dr <- driversList$FileName
 # Load all driver layers
 data(list = dr)
 
-# Normalize drivers
+# Normalize drivers (to remove later)
 quantNorm <- function(x) {
   id <- x > 0
   x <- x / quantile(x[id], probs = .99, na.rm = T)
@@ -19,12 +19,30 @@ quantNorm <- function(x) {
   x[x < 0] <- 0
   x
 }
-
 for(i in dr) assign(i, quantNorm(get(i)))
 
 # Transform raster projections
 prj <- "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs"
 for(i in dr) assign(i, raster::projectRaster(get(i), crs = prj))
+
+# Embed drivers in a list
+drivers <- mget(dr)
+
+# Extract hotspots
+hotspots <- drivers
+for(i in 1:length(hotspots)) {
+  # Raster values
+  vals <- values(hotspots[[i]])
+
+  # Identify values over 0
+  id0 <- vals > 0
+
+  # Evaluate hotspot threshold value
+  th <- quantile(vals[id0], probs = .8, na.rm = T)
+
+  # Transform raster as binary hotspot data
+  hotspots[[i]] <- calc(hotspots[[i]], fun = function(x) ifelse(x > th, 1, NA))
+}
 
 # Make raster0
 raster0 <- raster(vals = NA,
@@ -34,12 +52,13 @@ raster0 <- raster(vals = NA,
                   crs = prj)
 
 
-# Embed drivers and raster0 in a list
-drivers <- mget(dr)
+# Embed drivers and hotspots with raster0
 drivers$raster0 <- raster0
+hotspots$raster0 <- raster0
 
-# Export drivers list
+# Export drivers and hotspots list
 save(drivers, file = './data/drivers.RData')
+save(hotspots, file = './data/hotspots.RData')
 
 # Get egslSimple from slmeta
 library(slmeta)
