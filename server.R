@@ -1,137 +1,149 @@
 # Parameters & data
 source('./code/param.R')
 
-# pos <- sapply(layers$Drivers, function(i) input[[i]]) %>%
-#        unlist() %>%
-#        as.numeric(paste()) %>%
-#        layers$FileName[.]
-
 
 server = function(input, output, session) {
 
-  # --------------- Functions --------------- #
-  # Reactive object to get selection from user
-  sel_layers <- reactive({
-    pos <- input$layersTable
-    if (length(pos) > 0){
-      pos
-    } else {
-      'raster0'
-    }
-  })
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# Reactive object to get selection from user
+sel_layers <- reactive({
+  pos <- input$layersTable
+  if (length(pos) > 0){
+    pos
+  } else {
+    'raster0'
+  }
+})
 
-  # Loading raster
-  ras <- reactive({
-    sel <- sel_layers()
-    if (length(sel) > 1) {
-      Reduce("+",drivers[sel])
-    } else {
-      drivers[sel][[1]]
-    }
-    # crs = "+init=epsg:3857")
-  })
+# Loading raster
+ras <- reactive({
+  sel <- sel_layers()
+  if (length(sel) > 1) {
+    Reduce("+",drivers[sel])
+  } else {
+    drivers[sel][[1]]
+  }
+  # crs = "+init=epsg:3857")
+})
 
+# Raster values
+vals <- reactive({
+  if(length(input$layersTable) > 0) {
+    val <- ras() %>%
+            maxValue() %>%
+            ceiling() %>%
+            seq(0, ., by = ./10)
+  } else {
+    val <- seq(0, 1, by = .1)
+  }
+})
 
+# Colors
+couleurs <- reactive({
+  colorBin(
+    palette  = colorRampPalette(cols)(11),
+    domain   = values(ras()),
+    bin      = vals(),
+    na.color = "transparent"
+  )
+})
 
-
-
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INTERACTIVE MAP ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # Leaflet
-  output$map <- renderLeaflet({
-
-      map <- leaflet(
-        data = egslSimple
-      ) %>%
-      addProviderTiles(
-        provider = providers$CartoDB.Positron
-      ) %>%
-      addPolygons(
-        color = "#000000",
-        weight = 0.5,
-        opacity = 1.0,
-        fillOpacity = 0,
-        fillColor = "transparent"
-      ) %>%
-      setView(lng   = -63.50,
-              lat   =  48.50,
-              zoom  = 6
-      ) %>%
-      addEasyButton(
-        easyButton(
-          icon = "fa-globe",
-          title = "Zoom to Level 1",
-          onClick = JS(
-            "function(btn, map){ map.setZoom(6); }"
-          )
-        )
-      ) %>%
-      addMiniMap(
-        position = "bottomright",
-        tiles = providers$CartoDB.PositronNoLabels,
-        toggleDisplay = TRUE
-      )
-  })
-
-  couleurs <- reactive({
-    cols <- c('#C7CBCE','#96A3A3','#687677','#222D3D','#25364A','#C77F20','#E69831','#E3AF16','#E4BE29','#F2EA8B')
-    colorBin(
-      palette  = colorRampPalette(cols)(11),
-      domain   = values(ras()),
-      bin      = seq(0, length(sel_layers()), by = (length(sel_layers()) / 10)),
-      # bin      = seq(0, ceiling(max(values(ras()))), by = (max(values(ras())) / 10)),
-      # bin      = seq(0, 1, by = .1),
-      na.color = "transparent"
-    )
-  })
-
-  observe({
-    ### Update map
-    leafletProxy(
-      mapId = "map",
-      data  = egslSimple) %>%
-    clearShapes() %>%
-    clearControls() %>%
-    clearImages() %>%
-    addRasterImage(
-      x       = ras(),
-      colors  = couleurs(),
-      opacity = .75,
-      project = FALSE
+output$map <- renderLeaflet({
+    map <- leaflet(
+      data = egslSimple
     ) %>%
-    # addPolygons(
-    #   color       = "#000000",
-    #   weight      = 1.1,
-    #   opacity     = 1.0,
-    #   fillOpacity = 0,
-    #   fillColor   = "transparent"
-    # ) %>%
-    setView(lng   = -63.50,
+    addProviderTiles(
+      provider = providers$CartoDB.Positron
+    ) %>%
+    addPolygons(
+      color = "#000000",
+      weight = 0.5,
+      opacity = 1.0,
+      fillOpacity = 0,
+      fillColor = "transparent"
+    ) %>%
+    setView(lng   = -65,
             lat   =  48.50,
             zoom  = 6
-    )
+    ) %>%
+    addEasyButton(
+      easyButton(
+        icon = "fa-globe",
+        title = "Zoom to Level 1",
+        onClick = JS(
+          "function(btn, map){ map.setZoom(6); }"
+        )
+      )
+    ) # %>%
+    # addMiniMap(
+    #   position = "bottomright",
+    #   tiles = providers$CartoDB.PositronNoLabels,
+    #   toggleDisplay = TRUE
+    # )
+})
 
-    leafletProxy(mapId = "map") %>%
-    addLegend(
-      position  = "bottomright",
-      pal       = couleurs(),
-      values    = seq(0, 1, by = .1),
-      # values    =  seq(0, max(values(ras())), by = (max(values(ras()))/10)),
-      title     = "Map legend",
-      opacity   = 1,
-      className = "info legend"
-    )
-    #  showNotification(raster_path())
-  })
+# Update map
+observe({
+  leafletProxy(
+    mapId = "map",
+    data  = egslSimple) %>%
+  clearShapes() %>%
+  clearControls() %>%
+  clearImages() %>%
+  addRasterImage(
+    x       = ras(),
+    colors  = couleurs(),
+    opacity = .75,
+    project = FALSE
+  ) %>%
+  setView(lng   = -65,
+          lat   =  48.50,
+          zoom  = 6
+  )
 
-  # Action button to reset choices
-  observe({
-     if (input$Uncheck > 0) {
-        updateCheckboxGroupInput(session = session,
-                                 inputId = 'layersTable',
-                                 label = '',
-                                 choiceNames = layers$Drivers,
-                                 choiceValues = layers$FileName)
-     }
-   })
+  leafletProxy(mapId = "map") %>%
+  addLegend(
+    position  = "bottomright",
+    pal       = couleurs(),
+    values    = vals(),
+    title     = "Map legend",
+    opacity   = 1,
+    className = "info legend"
+  )
+  #  showNotification(raster_path())
+})
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ACTION BUTTONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# Action button to reset choices
+observe({
+   if (input$Uncheck > 0) {
+      updateCheckboxGroupInput(session = session,
+                               inputId = 'layersTable',
+                               label = '',
+                               choiceNames = layers$Drivers,
+                               choiceValues = layers$FileName)
+   }
+ })
+
+# Action button to select all choices
+observe({
+   if (input$CheckAll > 0) {
+      updateCheckboxGroupInput(session = session,
+                               inputId = 'layersTable',
+                               label = '',
+                               selected = layers$FileName,
+                               choiceNames = layers$Drivers,
+                               choiceValues = layers$FileName)
+   }
+ })
 
 
 
