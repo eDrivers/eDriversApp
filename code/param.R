@@ -25,7 +25,8 @@ source('./code/histDriver.R')
 source('./code/histFd.R')
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~   TEXTS   ~~~~~~~~~~~~~~~~~~~~~~~~~ #
-load('./texts/driversList.RData')
+load('./data/driversList.RData')
+source('./texts/driversList.R')
 source('./texts/eDrivers.R')
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~   RASTER0   ~~~~~~~~~~~~~~~~~~~~~~~~~ #
