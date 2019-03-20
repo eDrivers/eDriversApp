@@ -19,14 +19,14 @@ library(eDrivers)
 load('./data/drivers.RData')
 load('./data/hotspots.RData')
 load('./data/egslSimple.RData')
-load('./data/driversList.RData')
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~   FUNCTIONS   ~~~~~~~~~~~~~~~~~~~~~~~~~ #
 source('./code/histDriver.R')
 source('./code/histFd.R')
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~   TEXTS   ~~~~~~~~~~~~~~~~~~~~~~~~~ #
-source('./code/eDrivers.R')
+source('./texts/driversList.R')
+source('./texts/eDrivers.R')
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~   RASTER0   ~~~~~~~~~~~~~~~~~~~~~~~~~ #
 prj <- "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs"

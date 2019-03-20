@@ -13,6 +13,6 @@ histDriver <- function(x) {
        xlab = 'Intensity',
        ylab = 'Frequency',
        col = cols[6],
-       border = cols[4],
+       border = paste0(cols[4], '55'),
        breaks = 100)
 }

@@ -173,12 +173,12 @@ HTML({
     '<hr /><div class="pad">',
     '<br/>',
     '<h3>Context<h3/>',
-    '<h4>', context,'<h4/>',
+    '<h4>', eDrivers$context,'<h4/>',
     '<br/>',
-    '<h4>', context,'<h4/>',
+    '<h4>', eDrivers$context,'<h4/>',
     '<br/>',
     '<h3>Guiding principles<h3/>',
-    '<h4>', guiding,'<h4/>'
+    '<h4>', eDrivers$guiding,'<h4/>'
 
   )
 })
@@ -193,18 +193,18 @@ HTML({
     '<br/>',
     '<hr /><div class="pad">',
     '<br/>',
-    '<h3>Overview<h3/>',
-    '<br/>',
     '<h3>Data description<h3/>',
     '<h4><b>Spatial resolution</b>: ',driversList$SpatRes[id],'<h4/>',
     '<h4><b>Temporal resolution</b>: ',driversList$TempRes[id],'<h4/>',
     '<h4><b>Years</b>: ',driversList$Years[id],'<h4/>',
     '<h4><b>Units</b>: ',withMathJax(driversList$Units[id]),'<h4/>',
+    '<h4><b>Transformations</b>: ',driversList$DataTrans[id],'<h4/>',
     '<h4><b>Source</b>: ',driversList$Source[id],'<h4/>',
     '<br/>',
-    '<h3>Data transformations<h3/>',
-    '<br/>',
-    '<h3>Methodology<h3/>'
+    '<h3>Overview<h3/>',
+    '<h4>',driversList$Overview[id],'<h4/>',
+    '<br/>'
+
   )
 })
 

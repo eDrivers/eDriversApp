@@ -33,7 +33,6 @@ label.control-label,
   padding-bottom: 10px;
 }
 
-
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FONTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 h1 {
@@ -121,12 +120,25 @@ hr {
 #infoPanel {
   background-color: #ffffff;
   margin-left:      1%;
-  margin-right:     1%;
+  margin-right:     1.5%;
   margin-top:       1%;
   overflow-y:       scroll;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ TABLES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+table {
+  text-align: center;
+  width: 95%;
+  height: 100px;
+  border-bottom: 1px solid #4e4e4e99;
+}
+
+th {
+  text-align: center;
+  border-bottom: 1px solid #4e4e4e99;
+  border-top: 1px solid #4e4e4e99;
+}
+
 #dataType {
   font-size:        12px;
   margin-top:       -5%;
