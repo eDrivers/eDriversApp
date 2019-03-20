@@ -157,6 +157,9 @@ observe({
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CONDITIONAL PANEL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~~~~~~~~~~~ DATA DESCRIPTION ~~~~~~~~~~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 output$descrData <- renderUI({
 # ~~~~~~~~~~~~~~~ PARAMETERS ~~~~~~~~~~~~~~~ #
 sel <- input$layersTable
@@ -173,8 +176,6 @@ HTML({
     '<hr /><div class="pad">',
     '<br/>',
     '<h3>Context<h3/>',
-    '<h4>', eDrivers$context,'<h4/>',
-    '<br/>',
     '<h4>', eDrivers$context,'<h4/>',
     '<br/>',
     '<h3>Guiding principles<h3/>',
@@ -200,9 +201,6 @@ HTML({
     '<h4><b>Units</b>: ',withMathJax(driversList$Units[id]),'<h4/>',
     '<h4><b>Transformations</b>: ',driversList$DataTrans[id],'<h4/>',
     '<h4><b>Source</b>: ',driversList$Source[id],'<h4/>',
-    '<br/>',
-    '<h3>Overview<h3/>',
-    '<h4>',driversList$Overview[id],'<h4/>',
     '<br/>'
 
   )
@@ -222,6 +220,28 @@ HTML({
 }
 })
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~~~~~~~~~~~~ DATA OVERVIEW ~~~~~~~~~~~~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+output$dataOverview <- renderUI({
+# ~~~~~~~~~~~~~~~ PARAMETERS ~~~~~~~~~~~~~~~ #
+sel <- input$layersTable
+nSel <- length(sel)
+id <- which(driversList$FileName %in% sel)
+
+# ~~~~~~~~~~~~~ SINGLE DRIVER ~~~~~~~~~~~~~~ #
+if (nSel == 1) {
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+HTML({
+  paste(
+    '<br/>',
+    '<h3>Overview<h3/>',
+    '<h4>',driversList$Overview[id],'<h4/>',
+    '<br/>'
+  )
+})
+}
+})
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CONDITIONAL PLOTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
