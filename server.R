@@ -9,22 +9,27 @@ server = function(input, output, session) {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # Loading raster
 ras <- reactive({
-  # Selected drivers
-  sel <- input$layersTable
-
-  # Selected type of data (footprint vs hotspot)
-  type <- input$dataType
+  sel <- input$layersTable # Selected drivers
+  type <- input$dataType # Selected type of data (footprint vs hotspot)
+  trans <- input$rawData # Selected type of data (raw vs transformed data)
 
   # Select proper layer depending on user selection
   if (length(sel) == 0) {
     raster0
-  } else if (length(sel) == 1){
-  if(type == 'footprint') {
+  } else if (length(sel) == 1 && trans == 'rawData') {
+    if(type == 'footprint') {
+      rawDrivers[[sel]]
+    } else {
+      hotspots[[sel]]
+    }  } else if (length(sel) == 1 && trans == 'transformed') {
+    if(type == 'footprint') {
       drivers[[sel]]
     } else {
       hotspots[[sel]]
     }
-  } else if (length(sel) > 1) {
+  } else if (length(sel) > 1 && trans == 'rawData') {
+    raster0
+  } else if (length(sel) > 1 && trans == 'transformed') {
     if(type == 'footprint') {
       sum(drivers[[sel]], na.rm = T) %>%
       calc(function(x) ifelse(x == 0, NA, x))
@@ -38,7 +43,7 @@ ras <- reactive({
 
 # Raster values
 vals <- reactive({
-  if(length(input$layersTable) > 0) {
+  if(length(input$layersTable) > 0 && input$rawData == 'transformed') {
     val <- ras() %>%
             maxValue() %>%
             ceiling() %>%
@@ -115,6 +120,7 @@ observe({
           zoom  = 6
   )
 
+# Update legend
   leafletProxy(mapId = "map") %>%
   addLegend(
     position  = "bottomright",
@@ -164,6 +170,7 @@ output$descrData <- renderUI({
 # ~~~~~~~~~~~~~~~ PARAMETERS ~~~~~~~~~~~~~~~ #
 sel <- input$layersTable
 nSel <- length(sel)
+trans <- input$rawData
 id <- which(driversList$FileName %in% sel)
 
 # ~~~~~~~~~~~~~~~ NO DRIVER ~~~~~~~~~~~~~~~~ #
@@ -211,19 +218,33 @@ HTML({
   )
 })
 
-# ~~~~~~~~~~~~ MULTIPLE DRIVERS ~~~~~~~~~~~~ #
-} else if(nSel > 1) {
+# ~~~~~~~~~~ MULTIPLE DRIVERS RAW ~~~~~~~~~~ #
+} else if(nSel > 1 && trans == 'rawData') {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 HTML({
   paste(
     '<h1>','Driver footprint','<h1/>',
     '<br/>',
     '<hr /><div class="pad">',
+    '<br/>',
+    '<h3>Data must be transformed to allow overlap comparisons<h3/>'
+  )
+})
+
+# ~~~~~~ MULTIPLE DRIVERS TRANSFORMED ~~~~~~ #
+} else if(nSel > 1 && trans == 'transformed') {
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+HTML({
+  paste(
+    '<h1>','Driver footprint','<h1/>',
+    '<br/>',
+    '<hr/><div class="pad">',
     '<br/>'
   )
 })
 }
 })
+
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~ DATA OVERVIEW ~~~~~~~~~~~~~~~ #
@@ -256,6 +277,7 @@ output$condPlot <- renderPlot({
 # ~~~~~~~~~~~~~~~ PARAMETERS ~~~~~~~~~~~~~~~ #
 sel <- input$layersTable # Selected drivers
 type <- input$dataType # Selected data types between footprint and hotspots
+trans <- input$rawData # Raw or transformed data
 nSel <- length(sel) # Number of selections
 id <- which(driversList$FileName %in% sel) # Id of selections in data table
 
@@ -269,7 +291,7 @@ if (nSel == 0) {
 # ~~~~~~~~~~~~ MULTIPLE DRIVERS ~~~~~~~~~~~~ #
 } else if(nSel > 1) {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-  if (type == 'footprint') histFd(ras())
+  if (type == 'footprint' && trans == 'transformed') histFd(ras())
 }
 })
 

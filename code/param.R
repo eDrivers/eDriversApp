@@ -16,6 +16,7 @@ library(eDrivers)
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~   DATA   ~~~~~~~~~~~~~~~~~~~~~~~~~ #
+load('./data/rawDrivers.RData')
 load('./data/drivers.RData')
 load('./data/hotspots.RData')
 load('./data/egslSimple.RData')

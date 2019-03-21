@@ -107,7 +107,7 @@ hr {
   z-index:       0;
 }
 .legend {
-  width:       150px;
+  width:       155px;
   font-family: 'Josefin Slab', serif;
 }
 
@@ -145,9 +145,18 @@ th {
   border-top: 1px solid #4e4e4e99;
 }
 
-#dataType {
+#rawData {
   font-size:        12px;
   margin-top:       -5%;
+  margin-left:      4%;
+  font-weight:      200;
+  background-color: #ffffff00;
+  font-family:      'Josefin Slab', serif;
+}
+
+#dataType {
+  font-size:        12px;
+  margin-top:       -10%;
   margin-left:      4%;
   font-weight:      200;
   background-color: #ffffff00;
@@ -228,7 +237,7 @@ absolutePanel(id = 'checkPanel1',
               draggable = FALSE,
               left = '14',
               top = '130',
-              height = '660px',
+              height = '690px',
 
               # Collapse button
               HTML('<button data-toggle="collapse" data-target="#demo">&nbsp;&#8689;&nbsp;</button>'),
@@ -245,6 +254,14 @@ absolutePanel(id = 'checkPanel1',
                             draggable = TRUE,
                             h5('Drivers'),
                             hr(),
+
+                            # Raw vs transformed data choice
+                            radioButtons(inputId = 'rawData',
+                                         label = '',
+                                         inline = T,
+                                         choiceNames = c('Raw data','Transformed'),
+                                         choiceValues = c('rawData','transformed'),
+                                         selected = 'transformed'),
 
                             # Hotspots vs footprint choice
                             radioButtons(inputId = 'dataType',
