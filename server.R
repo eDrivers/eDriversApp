@@ -189,8 +189,9 @@ HTML({
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 HTML({
   paste(
-    '<h1>',driversList$Groups[id],'<h1/>',
-    '<h2>',driversList$Drivers[id],'<h2/>',
+    '<h1>',driversList$Drivers[id],'<h1/>',
+    # '<h1>',driversList$Groups[id],'<h1/>',
+    # '<h2>',driversList$Drivers[id],'<h2/>',
     '<br/>',
     '<hr /><div class="pad">',
     '<br/>',
