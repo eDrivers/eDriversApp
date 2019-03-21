@@ -37,6 +37,8 @@ rsconnect/
 
 # Files to ignore
 app.R
+deploy.R
+data.R
 
 #iOS file
 .DS_Store

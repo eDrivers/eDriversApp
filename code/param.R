@@ -2,24 +2,15 @@
 library(leaflet)
 library(shiny)
 library(shinyjs)
-# library(sp)
 library(raster)
-# library(rgdal)
-# library(RColorBrewer)
-# library(slmeta)
 library(magrittr)
-# library(showtext)
-# library(curl)
-library(eDrivers)
-# library(matrixStats)
-
-
+library(sf)
+library(rgdal)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~   DATA   ~~~~~~~~~~~~~~~~~~~~~~~~~ #
 load('./data/rawDrivers.RData')
 load('./data/drivers.RData')
 load('./data/hotspots.RData')
-load('./data/egslSimple.RData')
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~   FUNCTIONS   ~~~~~~~~~~~~~~~~~~~~~~~~~ #
 source('./code/histDriver.R')

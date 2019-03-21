@@ -65,6 +65,27 @@ for(i in 1:length(hotspots)) {
   hotspots[[i]] <- calc(hotspots[[i]], fun = function(x) ifelse(x > th, 1, NA))
 }
 
+# Set values <= 0 to NA
+for(i in 1:length(drivers)) {
+  rawDrivers[[i]][] <- ifelse(rawDrivers[[i]][] <= 0, NA, rawDrivers[[i]][])
+  drivers[[i]][] <- ifelse(drivers[[i]][] <= 0, NA, drivers[[i]][])
+}
+
+
+# Aggregate data to reduce resolution and increase speed of app
+for(i in 1:length(drivers)) {
+  rawDrivers[[i]] <- aggregate(rawDrivers[[i]], fact = 1.5)
+  drivers[[i]] <- aggregate(drivers[[i]], fact = 1.5)
+  hotspots[[i]] <- aggregate(hotspots[[i]], fact = 1.5)
+}
+
+# # Transform data to remove decimals (multiply by 100)
+# for(i in 1:length(drivers)) {
+#   rawDrivers[[i]] <- rawDrivers[[i]]*100 %>% round(0)
+#   drivers[[i]] <- drivers[[i]]*100 %>% round(0)
+#   hotspots[[i]] <- hotspots[[i]]*100 %>% round(0)
+# }
+#
 # Transform into raster stacks
 rawDrivers <- stack(rawDrivers)
 drivers <- stack(drivers)
@@ -75,9 +96,9 @@ save(rawDrivers, file = './data/rawDrivers.RData')
 save(drivers, file = './data/drivers.RData')
 save(hotspots, file = './data/hotspots.RData')
 
-# Get egslSimple from slmeta
-library(slmeta)
-data(egslSimple)
-prj <- "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
-egslSimple <- st_transform(egslSimple, crs = prj)
-save(egslSimple, file = './data/egslSimple.RData')
+# # Get egslSimple from slmeta
+# library(slmeta)
+# data(egslSimple)
+# prj <- "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
+# egslSimple <- st_transform(egslSimple, crs = prj)
+# save(egslSimple, file = './data/egslSimple.RData')

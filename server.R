@@ -48,6 +48,11 @@ vals <- reactive({
             maxValue() %>%
             ceiling() %>%
             seq(0, ., by = ./10)
+  } else if(length(input$layersTable) == 1 && input$rawData == 'rawData') {
+    val <- ras() %>%
+            maxValue() %>%
+            ceiling() %>%
+            seq(0, ., by = ./10)
   } else {
     val <- seq(0, 1, by = .1)
   }
@@ -68,69 +73,36 @@ couleurs <- reactive({
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # Leaflet
 output$map <- renderLeaflet({
-    map <- leaflet(
-      data = egslSimple
-    ) %>%
-    addProviderTiles(
-      provider = providers$CartoDB.Positron
-    ) %>%
-    addPolygons(
-      color = "#000000",
-      weight = 0.5,
-      opacity = 1.0,
-      fillOpacity = 0,
-      fillColor = "transparent"
-    ) %>%
-    setView(lng   = -65,
-            lat   =  48.50,
-            zoom  = 6
-    ) %>%
-    addEasyButton(
-      easyButton(
-        icon = "fa-globe",
-        title = "Zoom to Level 1",
-        onClick = JS(
-          "function(btn, map){ map.setZoom(6); }"
-        )
-      )
-    ) # %>%
-    # addMiniMap(
-    #   position = "bottomright",
-    #   tiles = providers$CartoDB.PositronNoLabels,
-    #   toggleDisplay = TRUE
-    # )
+  map <- leaflet() %>%
+         addProviderTiles(provider = providers$CartoDB.Positron) %>%
+         setView(lng   = -65, lat   =  48.50, zoom  = 6) %>%
+         addEasyButton(
+           easyButton(icon = "fa-globe",
+                      title = "Zoom to Level 1",
+                      onClick = JS("function(btn, map){ map.setZoom(6); }")))
 })
 
 # Update map
 observe({
-  leafletProxy(
-    mapId = "map",
-    data  = egslSimple) %>%
+# Map
+  leafletProxy(mapId = "map") %>%
   clearShapes() %>%
   clearControls() %>%
   clearImages() %>%
-  addRasterImage(
-    x       = ras(),
-    colors  = couleurs(),
-    opacity = .75,
-    project = FALSE
-  ) %>%
-  setView(lng   = -65,
-          lat   =  48.50,
-          zoom  = 6
-  )
+  addRasterImage(x       = ras(),
+                 colors  = couleurs(),
+                 opacity = .75,
+                 project = FALSE) #%>%
+  # setView(lng   = -65, lat   =  48.50, zoom  = 6)
 
-# Update legend
+# Legend
   leafletProxy(mapId = "map") %>%
-  addLegend(
-    position  = "bottomright",
-    pal       = couleurs(),
-    values    = vals(),
-    title     = "Map legend",
-    opacity   = 1,
-    className = "info legend"
-  )
-  #  showNotification(raster_path())
+  addLegend(position  = "bottomright",
+            pal       = couleurs(),
+            values    = vals(),
+            title     = "Map legend",
+            opacity   = 1,
+            className = "info legend")
 })
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
