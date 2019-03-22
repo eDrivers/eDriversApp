@@ -133,7 +133,7 @@ observe({
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CONDITIONAL PANEL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CONDITIONAL PANELS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~ DATA DESCRIPTION ~~~~~~~~~~~~~ #
@@ -199,7 +199,7 @@ HTML({
     '<br/>',
     '<hr /><div class="pad">',
     '<br/>',
-    '<h3>Data must be transformed to allow overlap comparisons<h3/>'
+    '<h3><h3/>'
   )
 })
 
@@ -240,6 +240,35 @@ HTML({
 })
 }
 })
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~~~~~~~~~~~ WARNING MESSAGE ~~~~~~~~~~~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+output$warningMSG <- renderUI({
+# ~~~~~~~~~~~~~~~ PARAMETERS ~~~~~~~~~~~~~~~ #
+nSel <- length(input$layersTable)
+trans <- input$rawData
+
+# ~~~~~~~~~~~~~~~~ MESSAGE ~~~~~~~~~~~~~~~~~ #
+if(nSel > 1 && trans == 'rawData') {
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+HTML({
+  paste(
+    '<div style="background-color:#4e4e4eCC;
+                 background: radial-gradient(#4e4e4e, #4e4e4e66);
+                 margin-left: -5%;
+                 margin-right: -5%;
+                 padding-top:25%;
+                 padding-bottom:25%;
+                 padding-left:35%;
+                 padding-right:35%;
+                 text-align:center;">',
+    '<h6>Driver data must be transformed to allow cumulative intensity visualization<h6/></div>'
+  )
+})
+}
+})
+
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CONDITIONAL PLOTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #

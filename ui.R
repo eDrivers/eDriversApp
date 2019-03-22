@@ -86,6 +86,15 @@ h5 {
   margin-top:     5%;
   margin-left:    5%;
 }
+h6 {
+  font-family:    'Josefin Slab', serif;
+  font-style:     italic;
+  color:          #C77F20;
+  text-align:     center;
+  font-size:      24px;
+  margin-top:     2%;
+  margin-bottom:  2%;
+}
 hr {
   color:          #4e4e4e99;
   border:         1px solid;
@@ -130,6 +139,13 @@ hr {
   margin-top:       1%;
   overflow-y:       scroll;
 }
+
+#warningMSG {
+  pointer-events:   none;
+  position:         absolute;
+  transform:        translate(-50%, -50%);
+}
+
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ TABLES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 table {
@@ -261,7 +277,7 @@ absolutePanel(id = 'checkPanel1',
                                          inline = T,
                                          choiceNames = c('Raw data','Transformed'),
                                          choiceValues = c('rawData','transformed'),
-                                         selected = 'transformed'),
+                                         selected = 'rawData'),
 
                             # Hotspots vs footprint choice
                             radioButtons(inputId = 'dataType',
@@ -277,7 +293,8 @@ absolutePanel(id = 'checkPanel1',
                             checkboxGroupInput(inputId = 'layersTable',
                                                label = '',
                                                choiceNames = layers$Drivers,
-                                               choiceValues = layers$FileName)
+                                               choiceValues = layers$FileName,
+                                               selected = layers$FileName)
 
         ))),
 
@@ -293,10 +310,32 @@ absolutePanel(id = 'infoPanel',
               htmlOutput('descrData'),
               div(plotOutput('condPlot',  width = '90%', height = '300px'), align = 'center'),
               htmlOutput('dataOverview')
-             )
+            ),
 
-
-
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ WARNING PANEL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# absolutePanel(id = 'warningPanel',
+#               right = '35%',
+#               top = '30%',
+#               bottom = '30%',
+#               left = '25%',
+#               absolutePanel(id = 'msg',
+#                             top = '50%',
+#                             left = '50%',
+#                             right = '25%',
+#                             bottom = '25%',
+#                             htmlOutput('warningMSG')
+#                             )
+#               )
+conditionalPanel(condition = "length(input.layersTable) > 1 && input.rawData == 'rawData'",
+                 absolutePanel(id = 'warningMessage',
+                               top = '50%',
+                               left = '50%',
+                               right = '20%',
+                               bottom = '20%',
+                               htmlOutput('warningMSG')
+                              ))
 
 
 
