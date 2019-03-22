@@ -9,9 +9,13 @@ histHotspot <- function(x) {
 
   barplot(x,
           ylim = c(0, 20000),
+          xlim = c(0,14),
           col = cols[6],
           border = paste0(cols[4], '55'),
           main = '',
           xlab = 'Hotspots overlap',
-          ylab = 'Frequency')
+          ylab = 'Frequency',
+          cex.axis = .8,
+          cex.names = .8)
+
 }
