@@ -13,6 +13,6 @@ histFd <- function(x) {
        xlab = 'Driver footprint',
        ylab = 'Frequency',
        col = cols[6],
-       border = cols[4],
+       border = paste0(cols[4], '44'),
        breaks = 100)
 }

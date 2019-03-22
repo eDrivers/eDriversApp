@@ -277,7 +277,7 @@ absolutePanel(id = 'checkPanel1',
                                          inline = T,
                                          choiceNames = c('Raw data','Transformed'),
                                          choiceValues = c('rawData','transformed'),
-                                         selected = 'rawData'),
+                                         selected = 'transformed'),
 
                             # Hotspots vs footprint choice
                             radioButtons(inputId = 'dataType',
@@ -294,7 +294,7 @@ absolutePanel(id = 'checkPanel1',
                                                label = '',
                                                choiceNames = layers$Drivers,
                                                choiceValues = layers$FileName,
-                                               selected = layers$FileName)
+                                               selected = '')
 
         ))),
 
@@ -308,7 +308,7 @@ absolutePanel(id = 'infoPanel',
               bottom = '0',
               left = '80%',
               htmlOutput('descrData'),
-              div(plotOutput('condPlot',  width = '90%', height = '300px'), align = 'center'),
+              div(plotOutput('condPlot', width = '90%', height = '300px'),align = 'center'),
               htmlOutput('dataOverview')
             ),
 

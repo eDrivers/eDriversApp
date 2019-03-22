@@ -7,7 +7,7 @@ server = function(input, output, session) {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-# Loading raster
+# Loading raster ----------------------------------------------------
 ras <- reactive({
   sel <- input$layersTable # Selected drivers
   type <- input$dataType # Selected type of data (footprint vs hotspot)
@@ -41,7 +41,7 @@ ras <- reactive({
   # crs = "+init=epsg:3857")
 })
 
-# Raster values
+# Raster values ----------------------------------------------------
 vals <- reactive({
   if(length(input$layersTable) > 0 && input$rawData == 'transformed') {
     val <- ras() %>%
@@ -58,7 +58,7 @@ vals <- reactive({
   }
 })
 
-# Colors
+# Colors ----------------------------------------------------
 couleurs <- reactive({
   colorBin(
     palette  = colorRampPalette(cols)(11),
@@ -289,10 +289,12 @@ if (nSel == 0) {
 } else if(nSel == 1) {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
   if (type == 'footprint') histDriver(ras())
+  if (type == 'hotspots') histHotspot(ras())
 # ~~~~~~~~~~~~ MULTIPLE DRIVERS ~~~~~~~~~~~~ #
 } else if(nSel > 1) {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
   if (type == 'footprint' && trans == 'transformed') histFd(ras())
+  if (type == 'hotspots'  && trans == 'transformed') histHotspot(ras())
 }
 })
 
