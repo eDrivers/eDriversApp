@@ -17,5 +17,4 @@ histHotspot <- function(x) {
           ylab = 'Frequency',
           cex.axis = .8,
           cex.names = .8)
-
 }

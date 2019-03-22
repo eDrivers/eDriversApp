@@ -95,6 +95,18 @@ h6 {
   margin-top:     2%;
   margin-bottom:  2%;
 }
+h7 {
+  font-family:    'Josefin Slab', serif;
+  text-align:     left;
+  font-style:     italic;
+  font-weight:    bold;
+  color:          #555;
+  font-size:      14px;
+  margin-left:    4%;
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LINES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 hr {
   color:          #4e4e4e99;
   border:         1px solid;
@@ -103,6 +115,64 @@ hr {
   margin-left:    10%;
   margin-right:   10%;
 }
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LISTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+ul {
+   list-style: none;
+   padding-left: 20px;
+}
+li {
+  position: relative;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LOGOS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+.wrapper {
+  display: grid;
+}
+
+.logo {
+	grid-template-columns: 1fr 1fr;
+	display: inherit;
+	min-height: 1.5rem;
+	margin-bottom: 2rem;
+  grid-row-gap: 10px;
+  justify-items: center;
+}
+
+.logo > div{
+	grid-column: auto;
+	align-self: center;
+	justify-self: center;
+}
+
+.logo img {
+	height: 2.4rem;
+	-webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+	filter: grayscale(100%);
+}
+
+.logo2 {
+	grid-template-columns: 1fr 1fr 1fr;
+	display: inherit;
+	min-height: 1.5rem;
+	margin-bottom: 2rem;
+  grid-row-gap: 5px;
+  justify-items: center;
+}
+
+.logo2 > div{
+	grid-column: auto;
+	align-self: center;
+	justify-self: center;
+}
+
+.logo2 img {
+	height: 2.4rem;
+	-webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+	filter: grayscale(100%);
+}
+
+
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INTERACTIVE MAP ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 #map {
@@ -315,19 +385,6 @@ absolutePanel(id = 'infoPanel',
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ WARNING PANEL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-# absolutePanel(id = 'warningPanel',
-#               right = '35%',
-#               top = '30%',
-#               bottom = '30%',
-#               left = '25%',
-#               absolutePanel(id = 'msg',
-#                             top = '50%',
-#                             left = '50%',
-#                             right = '25%',
-#                             bottom = '25%',
-#                             htmlOutput('warningMSG')
-#                             )
-#               )
 conditionalPanel(condition = "length(input.layersTable) > 1 && input.rawData == 'rawData'",
                  absolutePanel(id = 'warningMessage',
                                top = '50%',
@@ -337,41 +394,5 @@ conditionalPanel(condition = "length(input.layersTable) > 1 && input.rawData == 
                                htmlOutput('warningMSG')
                               ))
 
-
-
-#
-# absolutePanel(
-#   id        = 'panel2',
-#   style     = 'background-color:"#ffffff";padding:1%;opacity:1;border-radius:5px;', #border:2px solid #888;
-#   left      = '60.50%', #71.5
-#   top       = '62.50%', #4.5
-#   draggable = TRUE,
-#   height    = '33%',
-#   width     = '25%',
-#   plotOutput(outputId = 'trendLat1', width = '100%', height = '33%'),
-#   plotOutput(outputId = 'trendLat2', width = '100%', height = '33%'),
-#   plotOutput(outputId = 'density', width = '100%', height = '33%')),
-
-  # absolutePanel(id = 'panel4',
-  #               style = 'background-color:"#ffffff00";',
-  #               left      = '74%',
-  #               top       = '4.5%',
-  #               draggable = TRUE,
-  #               height    = '33%',
-  #               width     = '22.5%',
-  #               HTML('<button data-toggle="collapse"      data-target="#demo2">&nbsp;&#8689;&nbsp;</button>'),
-  #               tags$div(id = 'demo2',  class="collapse in",
-  #                 absolutePanel(
-  #                   id        = 'panel5',
-  #                   style     = 'background-color:#ffffff00;padding:1%;opacity:1;overflow-y:scroll; max-height: 600px;',
-  #                   left      = '10%',
-  #                   top       = '0%',
-  #                   draggable = TRUE,
-  #                   height    = '100%',
-  #                   width     = '85%',
-  #                   htmlOutput('descrData')
-  #                 )
-  #               )
-  #             )
 )
 #

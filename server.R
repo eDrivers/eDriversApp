@@ -149,18 +149,7 @@ id <- which(driversList$FileName %in% sel)
 if (nSel == 0) {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 HTML({
-  paste(
-    '<h1>','eDrivers','<h1/>',
-    '<br/>',
-    '<hr /><div class="pad">',
-    '<br/>',
-    '<h3>Context<h3/>',
-    '<h4>', eDrivers$context,'<h4/>',
-    '<br/>',
-    '<h3>Guiding principles<h3/>',
-    '<h4>', eDrivers$guiding,'<h4/>'
-
-  )
+  eDrivers
 })
 
 # ~~~~~~~~~~~~~ SINGLE DRIVER ~~~~~~~~~~~~~~ #
@@ -168,9 +157,9 @@ HTML({
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 HTML({
   paste(
-    '<h1>',driversList$Drivers[id],'<h1/>',
-    # '<h1>',driversList$Groups[id],'<h1/>',
-    # '<h2>',driversList$Drivers[id],'<h2/>',
+    # '<h1>',driversList$Drivers[id],'<h1/>',
+    '<h1>',driversList$Groups[id],'<h1/>',
+    '<h2>',driversList$Drivers[id],'<h2/>',
     '<br/>',
     '<hr /><div class="pad">',
     '<br/>',
@@ -181,7 +170,7 @@ HTML({
     '<h4><b>Units</b>: ',withMathJax(driversList$Units[id]),'<h4/>',
     '<h4><b>Transformations</b>: ',driversList$DataTrans[id],'<h4/>',
     '<br/>',
-    '<h3>Source ', ifelse(driversList$SourceLink[id] != '',
+    '<h3>Source &nbsp;', ifelse(driversList$SourceLink[id] != '',
                           paste0('<a href="',driversList$SourceLink[id],'" target="_blank"><i class="fa fa-globe" aria-hidden="true"></i></a><h3/>'),
                           '<h3/>'),
     '<h4>',driversList$Source[id],'<h4/>',
@@ -195,7 +184,7 @@ HTML({
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 HTML({
   paste(
-    '<h1>','Driver footprint','<h1/>',
+    '<h1>','Cumulative intensity','<h1/>',
     '<br/>',
     '<hr /><div class="pad">',
     '<br/>',
@@ -208,7 +197,7 @@ HTML({
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 HTML({
   paste(
-    '<h1>','Driver footprint','<h1/>',
+    '<h1>','Cumulative intensity','<h1/>',
     '<br/>',
     '<hr/><div class="pad">',
     '<br/>'
@@ -297,56 +286,4 @@ if (nSel == 0) {
   if (type == 'hotspots'  && trans == 'transformed') histHotspot(ras())
 }
 })
-
-
-
-
-
-# # plot latitudinal trends
-#   output$trendLat1 <- renderPlot({
-#       if (!'raster0' %in% sel_layers()) {
-#         cisl::plotTrend(as.matrix(ras()),
-#                         type = "lat",
-#                         colLine = "#C77F20",
-#                         colPoly = "#C77F2033",
-#                         maxValue = length(sel_layers()),
-#                         font = 'Josefin Slab')
-#       }
-#   }, bg='transparent')
-
-# # plot longitudinal trends
-#   output$trendLat2 <- renderPlot({
-#       if (!'raster0' %in% sel_layers()) {
-#         cisl::plotTrend(as.matrix(ras()),
-#                         type = "lon",
-#                         colLine = "#C77F20",
-#                         colPoly = "#C77F2033",
-#                         maxValue = length(sel_layers()),
-#                         font = 'Josefin Slab')
-#       }
-#   }, bg='transparent')
-
-  # output$density <- renderPlot({
-  #   if (!'raster0' %in% sel_layers()) {
-  #     par(mar = c(2,2,1,0), family = 'Josefin Slab')
-  #     density(ras(), bty = "n",xaxt = 'n', yaxt = "n",bg = 'transparent', col = "#C77F20", lwd = 2)
-  #     mtext('Density', side = 3, line = 0)
-  #     axis(side = 1, line = 0, at = seq(0, length(sel_layers()), by = (length(sel_layers()) / 5)), label = seq(0, length(sel_layers()), by = (length(sel_layers()) / 5)))
-  #   }
-  # }, bg='transparent')
-
-  # # See conditionalPanel
-  #   output$descrData <- renderUI({
-  #     if (!'raster0' %in% sel_layers() & length(sel_layers()) == 1) {
-  #     HTML({
-  #       paste(
-  #         '<h2>',sel_layers(),'<h2/>',
-  #         '<hr /><div class="pad">',
-  #         '<h3> Methodology <h3/>',
-  #         '<h5>', layers[which(layers$Drivers == sel_layers()), 'method'], '<h5/>',
-  #         '<h3> Reference <h3/>',
-  #         '<h5>', layers[which(layers$Drivers == sel_layers()), 'reference'], '<h5/>')
-  #       })
-  #     }
-  #   })
 }
