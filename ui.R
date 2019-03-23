@@ -71,7 +71,7 @@ h3 {
 h4 {
   font-family:    'Josefin Slab', serif;
   text-align:     justify;
-  color:          #555;
+  color:          #a4a4a4;
   font-size:      14px;
   margin-left:    4%;
 }
@@ -103,6 +103,13 @@ h7 {
   color:          #555;
   font-size:      14px;
   margin-left:    4%;
+}
+hCaption {
+  font-family:    'Josefin Slab', serif;
+  text-align:     center;
+  color:          #a4a4a4;
+  font-size:      12px;
+  margin-left:    8%;
 }
 
 
