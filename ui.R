@@ -72,17 +72,33 @@ absolutePanel(id = 'checkPanel1',
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~ INFORMATION PANEL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+conditionalPanel(condition = 'input.layersTable.length < 1',
+                 absolutePanel(id = 'infoPanel',
+                               right = '0',
+                               top = '0',
+                               bottom = '0',
+                               left = '80%',
+                               htmlOutput('eDrivers'))),
 
-absolutePanel(id = 'infoPanel',
-              right = '0',
-              top = '0',
-              bottom = '0',
-              left = '80%',
-              htmlOutput('descrData'),
-              # div(plotOutput('condPlot', width = '95%'),align = 'center'),
-              div(uiOutput('uiPlot'), align = 'center'),
-              htmlOutput('dataOverview')
-            ),
+conditionalPanel(condition = 'input.layersTable.length == 1',
+                 absolutePanel(id = 'infoPanel',
+                               right = '0',
+                               top = '0',
+                               bottom = '0',
+                               left = '80%',
+                               htmlOutput('dataDescription'),
+                               div(plotOutput('singlePlot', width = '95%', height = '300px'),align = 'center'),
+                               htmlOutput('dataOverview'))),
+#
+conditionalPanel(condition = 'input.layersTable.length > 1 && input.rawData == "transformed"',
+                 absolutePanel(id = 'infoPanel',
+                               right = '0',
+                               top = '0',
+                               bottom = '0',
+                               left = '80%',
+                               htmlOutput('multiDescription'),
+                               div(plotOutput('multiPlot', width = '95%', height = '700px'),align = 'center'))),
+
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ WARNING PANEL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #

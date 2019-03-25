@@ -5,36 +5,42 @@ source('./code/param.R')
 server = function(input, output, session) {
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PARAMETERS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+sel <- reactive(input$layersTable) # Selected drivers
+nSel <- reactive(length(sel())) # Number of selected drivers
+type <- reactive(input$dataType) # Selected type of data (footprint vs hotspot)
+trans <- reactive(input$rawData) # Selected type of data (raw vs transformed data)
+id <- reactive(which(driversList$FileName %in% sel())) # ID of selected drivers in data table
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # Loading raster ----------------------------------------------------
 ras <- reactive({
-  sel <- input$layersTable # Selected drivers
-  type <- input$dataType # Selected type of data (footprint vs hotspot)
-  trans <- input$rawData # Selected type of data (raw vs transformed data)
-
   # Select proper layer depending on user selection
-  if (length(sel) == 0) {
+  if (length(sel()) == 0) {
     raster0
-  } else if (length(sel) == 1 && trans == 'rawData') {
-    if(type == 'footprint') {
-      rawDrivers[[sel]]
+  } else if (length(sel()) == 1 && trans() == 'rawData') {
+    if(type() == 'footprint') {
+      rawDrivers[[sel()]]
     } else {
-      hotspots[[sel]]
-    }  } else if (length(sel) == 1 && trans == 'transformed') {
-    if(type == 'footprint') {
-      drivers[[sel]]
+      hotspots[[sel()]]
+    }  } else if (length(sel()) == 1 && trans() == 'transformed') {
+    if(type() == 'footprint') {
+      drivers[[sel()]]
     } else {
-      hotspots[[sel]]
+      hotspots[[sel()]]
     }
-  } else if (length(sel) > 1 && trans == 'rawData') {
+  } else if (length(sel()) > 1 && trans() == 'rawData') {
     raster0
-  } else if (length(sel) > 1 && trans == 'transformed') {
-    if(type == 'footprint') {
-      sum(drivers[[sel]], na.rm = T) %>%
+  } else if (length(sel()) > 1 && trans() == 'transformed') {
+    if(type() == 'footprint') {
+      sum(drivers[[sel()]], na.rm = T) %>%
       calc(function(x) ifelse(x == 0, NA, x))
     } else {
-      sum(hotspots[[sel]], na.rm = T) %>%
+      sum(hotspots[[sel()]], na.rm = T) %>%
       calc(function(x) ifelse(x == 0, NA, x))
     }
   }
@@ -43,12 +49,12 @@ ras <- reactive({
 
 # Raster values ----------------------------------------------------
 vals <- reactive({
-  if(length(input$layersTable) > 0 && input$rawData == 'transformed') {
+  if(nSel() > 0 && trans() == 'transformed') {
     val <- ras() %>%
             maxValue() %>%
             ceiling() %>%
             seq(0, ., by = ./10)
-  } else if(length(input$layersTable) == 1 && input$rawData == 'rawData') {
+  } else if(nSel() == 1 && trans() == 'rawData') {
     val <- ras() %>%
             maxValue() %>%
             ceiling() %>%
@@ -66,18 +72,6 @@ couleurs <- reactive({
     bin      = vals(),
     na.color = "transparent"
   )
-})
-
-# Plot height ----------------------------------------------------
-plotHeight <- reactive({
-  nSel <- length(input$layersTable) # Number of selected drivers
-  if (nSel == 0) {
-    '0'
-  } else if (nSel == 1) {
-    '300'
-  } else if (nSel > 1) {
-    '600'
-  }
 })
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
@@ -150,108 +144,50 @@ observe({
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~ DATA DESCRIPTION ~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-output$descrData <- renderUI({
-# ~~~~~~~~~~~~~~~ PARAMETERS ~~~~~~~~~~~~~~~ #
-sel <- input$layersTable
-nSel <- length(sel)
-trans <- input$rawData
-id <- which(driversList$FileName %in% sel)
 
-# ~~~~~~~~~~~~~~~ NO DRIVER ~~~~~~~~~~~~~~~~ #
-if (nSel == 0) {
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-HTML({
-  eDrivers
+# ~~~~~~~~~~~~~~~ PLATFORM ~~~~~~~~~~~~~~~ #
+output$eDrivers <- renderUI({
+  HTML(eDrivers)
 })
 
-# ~~~~~~~~~~~~~ SINGLE DRIVER ~~~~~~~~~~~~~~ #
-} else if(nSel == 1) {
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-HTML({
-  paste(
-    # '<h1>',driversList$Drivers[id],'<h1/>',
-    '<h1>',driversList$Groups[id],'<h1/>',
-    '<h2>',driversList$Drivers[id],'<h2/>',
-    '<br/>',
-    '<hr /><div class="pad">',
-    '<br/>',
-    '<h3>Data description<h3/>',
-    '<h4><b>Spatial resolution</b>: ',driversList$SpatRes[id],'<h4/>',
-    '<h4><b>Temporal resolution</b>: ',driversList$TempRes[id],'<h4/>',
-    '<h4><b>Years</b>: ',driversList$Years[id],'<h4/>',
-    '<h4><b>Units</b>: ',withMathJax(driversList$Units[id]),'<h4/>',
-    '<h4><b>Transformations</b>: ',driversList$DataTrans[id],'<h4/>',
-    '<br/>',
-    '<h3>Source &nbsp;', ifelse(driversList$SourceLink[id] != '',
-                          paste0('<a href="',driversList$SourceLink[id],'" target="_blank"><i class="fa fa-globe" aria-hidden="true"></i></a><h3/>'),
-                          '<h3/>'),
-    '<h4>',driversList$Source[id],'<h4/>',
-    '<br/>'
+# ~~~~~~~~~~~~ SINGLE DRIVER ~~~~~~~~~~~~~ #
+# To make reactivity better, but this is definitely not the most efficient way to do it!
+# Need to figure out a better way at some point!
 
-  )
+# Reactive object for data description
+dataDescReactive <- reactive({
+  if (nSel() == 1) HTML(dataDesc(id()))
 })
 
-# ~~~~~~~~~~ MULTIPLE DRIVERS RAW ~~~~~~~~~~ #
-} else if(nSel > 1 && trans == 'rawData') {
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-HTML({
-  paste(
-    '<h1>','Cumulative intensity','<h1/>',
-    '<br/>',
-    '<hr /><div class="pad">',
-    '<br/>',
-    '<h3><h3/>'
-  )
+# Reactive object for data overview
+dataOverReactive <- reactive({
+  if (nSel() == 1) HTML(dataOver(id()))
 })
 
-# ~~~~~~ MULTIPLE DRIVERS TRANSFORMED ~~~~~~ #
-} else if(nSel > 1 && trans == 'transformed') {
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-HTML({
-  paste(
-    '<h1>','Cumulative intensity','<h1/>',
-    '<br/>',
-    '<hr/><div class="pad">',
-    '<br/>'
-  )
-})
-}
+# Render data description
+output$dataDescription <- renderUI(
+  dataDescReactive()
+)
+
+# Render data overview
+output$dataOverview <- renderUI(
+  dataOverReactive()
+)
+
+# ~~~~~~~~~~~~~ MULTIPLE DRIVERS ~~~~~~~~~~~~~ #
+output$multiDescription <- renderUI({
+  HTML(multiDesc(type()))
 })
 
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-# ~~~~~~~~~~~~~~~ DATA OVERVIEW ~~~~~~~~~~~~~~~ #
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-output$dataOverview <- renderUI({
-# ~~~~~~~~~~~~~~~ PARAMETERS ~~~~~~~~~~~~~~~ #
-sel <- input$layersTable
-nSel <- length(sel)
-id <- which(driversList$FileName %in% sel)
-
-# ~~~~~~~~~~~~~ SINGLE DRIVER ~~~~~~~~~~~~~~ #
-if (nSel == 1) {
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-HTML({
-  paste(
-    '<br/>',
-    '<h3>Overview<h3/>',
-    '<h4>',driversList$Overview[id],'<h4/>',
-    '<br/>'
-  )
-})
-}
-})
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~ WARNING MESSAGE ~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 output$warningMSG <- renderUI({
-# ~~~~~~~~~~~~~~~ PARAMETERS ~~~~~~~~~~~~~~~ #
-nSel <- length(input$layersTable)
-trans <- input$rawData
+# ~~~~~~~~~~~~~~~ PARAMETERS ~~~~~~~~~~~~~~~
 
 # ~~~~~~~~~~~~~~~~ MESSAGE ~~~~~~~~~~~~~~~~~ #
-if(nSel > 1 && trans == 'rawData') {
+if(nSel() > 1 && trans() == 'rawData') {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 HTML({
   paste(
@@ -270,39 +206,23 @@ HTML({
 }
 })
 
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CONDITIONAL PLOTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PLOTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-output$condPlot <- renderPlot({
-# ~~~~~~~~~~~~~~~ PARAMETERS ~~~~~~~~~~~~~~~ #
-sel <- input$layersTable # Selected drivers
-type <- input$dataType # Selected data types between footprint and hotspots
-trans <- input$rawData # Raw or transformed data
-nSel <- length(sel) # Number of selections
-id <- which(driversList$FileName %in% sel) # Id of selections in data table
-
-# ~~~~~~~~~~~~~~~ NO DRIVER ~~~~~~~~~~~~~~~~ #
-if (nSel == 0) {
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~ SINGLE DRIVER ~~~~~~~~~~~~~~ #
-} else if(nSel == 1) {
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-  if (type == 'footprint') histDriver(ras())
-  if (type == 'hotspots') histHotspot(ras())
-# ~~~~~~~~~~~~ MULTIPLE DRIVERS ~~~~~~~~~~~~ #
-} else if(nSel > 1) {
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-  if (type == 'footprint' && trans == 'transformed') cumulIntensity(sel, ras())
-  if (type == 'hotspots'  && trans == 'transformed') histHotspot(ras())
-}
+output$singlePlot <- renderPlot({
+  if (nSel() == 1) {
+    if (type() == 'footprint') histDriver(ras())
+    if (type() == 'hotspots') histHotspot(ras())
+  }
 })
 
-# wrap plotOutput in renderUI
-   output$uiPlot <- renderUI({
-       plotOutput("condPlot", height = plotHeight(), width = "100%")
-   })
-
-
+# ~~~~~~~~~~~~ MULTIPLE DRIVERS ~~~~~~~~~~~~ #
+output$multiPlot <- renderPlot({
+  if (nSel() > 1) {
+    if (type() == 'footprint' && trans() == 'transformed') cumulIntensity(sel(), ras())
+    if (type() == 'hotspots'  && trans() == 'transformed') histHotspot(ras())
+  }
+})
 
 } # End
