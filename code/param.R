@@ -12,12 +12,13 @@ load('./data/rawDrivers.RData')
 load('./data/drivers.RData')
 load('./data/hotspots.RData')
 load('./data/dr.RData')
+load('./data/hot.RData')
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~   FUNCTIONS   ~~~~~~~~~~~~~~~~~~~~~~~~~ #
 source('./code/histDriver.R')
 source('./code/histHotspot.R')
-source('./code/histFd.R')
 source('./code/cumulIntensity.R')
+source('./code/cumulHotspots.R')
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~   TEXTS   ~~~~~~~~~~~~~~~~~~~~~~~~~ #
 load('./data/driversList.RData')

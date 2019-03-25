@@ -221,7 +221,7 @@ output$singlePlot <- renderPlot({
 output$multiPlot <- renderPlot({
   if (nSel() > 1) {
     if (type() == 'footprint' && trans() == 'transformed') cumulIntensity(sel(), ras())
-    if (type() == 'hotspots'  && trans() == 'transformed') histHotspot(ras())
+    if (type() == 'hotspots'  && trans() == 'transformed') cumulHotspots(sel(), ras())
   }
 })
 
