@@ -54,7 +54,7 @@ absolutePanel(id = 'checkPanel1',
                             radioButtons(inputId = 'dataType',
                                          label = '',
                                          inline = T,
-                                         choiceNames = c('Footprint','Hotspots'),
+                                         choiceNames = c('Intensity','Hotspots'),
                                          choiceValues = c('footprint','hotspots'),
                                          selected = 'footprint'),
 

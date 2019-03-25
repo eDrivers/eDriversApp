@@ -131,7 +131,7 @@ cumulHotspots <- function(sel, ras) {
 
   # Groups
   for(i in levels(factor(driversList$Groups))) {
-    id <- groups == i
+    id <- driversList$Groups == i
     Y <- sum(range(y$mid[id])) / 2
     text(x = -.35, y = Y, labels = i, adj = c(0,.5), font = 2, cex = 1.15)
   }
