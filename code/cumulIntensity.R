@@ -117,7 +117,7 @@ cumulIntensity <- function(sel, ras) {
   y <- data.frame(y1 = y[1:nDr],
                   y2 = y[2:(nDr+1)])
   x1 <- 0
-  x2 <- .2
+  x2 <- .1
   y$mid <- (y$y1+y$y2)/2
   ygap <- .005
 
@@ -140,12 +140,12 @@ cumulIntensity <- function(sel, ras) {
   }
 
   # Text
-  text(x = rep(.25, ncol(dr)), y = y$mid, labels = driversList$Drivers, adj = c(0,.5))
+  text(x = rep(.15, ncol(dr)), y = y$mid, labels = driversList$Drivers, adj = c(0,.5), cex = 1.45)
 
   # Groups
   for(i in levels(factor(driversList$Groups))) {
     id <- driversList$Groups == i
     Y <- sum(range(y$mid[id])) / 2
-    text(x = -.3, y = Y, labels = i, adj = c(0,.5), font = 2)
+    text(x = -.33, y = Y, labels = i, adj = c(0,.5), font = 2, cex = 1.45)
   }
 }
