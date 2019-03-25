@@ -64,8 +64,7 @@ absolutePanel(id = 'checkPanel1',
                             checkboxGroupInput(inputId = 'layersTable',
                                                label = '',
                                                choiceNames = layers$Drivers,
-                                               choiceValues = layers$FileName,
-                                               selected = '')
+                                               choiceValues = layers$FileName)
 
         ))),
 
@@ -73,7 +72,7 @@ absolutePanel(id = 'checkPanel1',
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~ INFORMATION PANEL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 conditionalPanel(condition = 'input.layersTable.length < 1',
-                 absolutePanel(id = 'infoPanel',
+                 absolutePanel(id = 'infoPanel1',
                                right = '0',
                                top = '0',
                                bottom = '0',
@@ -81,7 +80,7 @@ conditionalPanel(condition = 'input.layersTable.length < 1',
                                htmlOutput('eDrivers'))),
 
 conditionalPanel(condition = 'input.layersTable.length == 1',
-                 absolutePanel(id = 'infoPanel',
+                 absolutePanel(id = 'infoPanel2',
                                right = '0',
                                top = '0',
                                bottom = '0',
@@ -89,9 +88,9 @@ conditionalPanel(condition = 'input.layersTable.length == 1',
                                htmlOutput('dataDescription'),
                                div(plotOutput('singlePlot', width = '95%', height = '300px'),align = 'center'),
                                htmlOutput('dataOverview'))),
-#
+
 conditionalPanel(condition = 'input.layersTable.length > 1 && input.rawData == "transformed"',
-                 absolutePanel(id = 'infoPanel',
+                 absolutePanel(id = 'infoPanel3',
                                right = '0',
                                top = '0',
                                bottom = '0',
@@ -103,7 +102,7 @@ conditionalPanel(condition = 'input.layersTable.length > 1 && input.rawData == "
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ WARNING PANEL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-conditionalPanel(condition = "length(input.layersTable) > 1 && input.rawData == 'rawData'",
+conditionalPanel(condition = "input.layersTable.length > 1 && input.rawData == 'rawData'",
                  absolutePanel(id = 'warningMessage',
                                top = '50%',
                                left = '50%',
@@ -112,5 +111,4 @@ conditionalPanel(condition = "length(input.layersTable) > 1 && input.rawData == 
                                htmlOutput('warningMSG')
                               ))
 
-)
-#
+) # End

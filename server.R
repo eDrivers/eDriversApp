@@ -79,7 +79,7 @@ couleurs <- reactive({
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # Leaflet
 output$map <- renderLeaflet({
-  map <- leaflet() %>%
+  leaflet() %>%
          addProviderTiles(provider = providers$CartoDB.Positron) %>%
          setView(lng   = -65, lat   =  48.50, zoom  = 6) %>%
          addEasyButton(

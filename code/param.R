@@ -6,6 +6,8 @@ library(raster)
 library(magrittr)
 library(sf)
 library(rgdal)
+library(dplyr)
+library(tidyr)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~   DATA   ~~~~~~~~~~~~~~~~~~~~~~~~~ #
 load('./data/rawDrivers.RData')
