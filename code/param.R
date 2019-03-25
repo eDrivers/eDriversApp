@@ -11,11 +11,13 @@ library(rgdal)
 load('./data/rawDrivers.RData')
 load('./data/drivers.RData')
 load('./data/hotspots.RData')
+load('./data/dr.RData')
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~   FUNCTIONS   ~~~~~~~~~~~~~~~~~~~~~~~~~ #
 source('./code/histDriver.R')
 source('./code/histHotspot.R')
 source('./code/histFd.R')
+source('./code/cumulIntensity.R')
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~   TEXTS   ~~~~~~~~~~~~~~~~~~~~~~~~~ #
 load('./data/driversList.RData')

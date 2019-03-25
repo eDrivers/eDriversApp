@@ -38,7 +38,9 @@ rsconnect/
 # Files to ignore
 app.R
 deploy.R
-data.R
+dataDrivers.R
+dataMarimekko.R
+
 
 #iOS file
 .DS_Store

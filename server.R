@@ -282,7 +282,7 @@ if (nSel == 0) {
 # ~~~~~~~~~~~~ MULTIPLE DRIVERS ~~~~~~~~~~~~ #
 } else if(nSel > 1) {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-  if (type == 'footprint' && trans == 'transformed') histFd(ras())
+  if (type == 'footprint' && trans == 'transformed') marFd(sel, ras())
   if (type == 'hotspots'  && trans == 'transformed') histHotspot(ras())
 }
 })
