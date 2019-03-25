@@ -52,15 +52,15 @@ cumulIntensity <- function(sel, ras) {
 
   # ~~~~~~~~~~~~~~~~~~~ LAYOUT ~~~~~~~~~~~~~~~~~~~ #
   # png('./figures/marimekko.png', width = 1800, height = 800, res = 200, pointsize = 8)
-  mat <- matrix(ncol = 10, nrow = 20, data = 1)
-  mat[7:17, ] <- 2
-  mat[18:20, ] <- 3
+  mat <- matrix(ncol = 10, nrow = 24, data = 1)
+  mat[5:13, ] <- 2
+  mat[13:24, ] <- 3
   layout(mat)
   # layout.show(3)
 
   # ~~~~~~~~~~~~~~~~~~~ HISTOGRAM ~~~~~~~~~~~~~~~~~~~ #
   col1 <- '#424242'
-  par(mar = c(4,4,.5,0),
+  par(mar = c(0,4,.5,0),
       # family = 'Josefin Slab',
       bg = 'transparent',
       col.lab = col1,
@@ -77,8 +77,8 @@ cumulIntensity <- function(sel, ras) {
          border = paste0(cols[4], '44'),
          breaks = 100,
          xlim = c(0,12))
-    axis(1, at = 0:12, cex.axis = .9)
-    axis(2, cex.axis = .9)
+    # axis(1, at = 0:12, cex.axis = .9)
+    axis(2, cex.axis = .9, las = 2)
     mtext(text = 'Frequency', side = 2, line = 2.25, cex = .9)
 
   # ~~~~~~~~~~~~~~~~~~~ MARIMEKKO ~~~~~~~~~~~~~~~~~~~ #
@@ -95,7 +95,7 @@ cumulIntensity <- function(sel, ras) {
 
   # Plot elements
   axis(1, at = 0:12, cex.axis = .9)
-  axis(2, cex.axis = .9)
+  axis(2, cex.axis = .9, las = 2)
   mtext(text = 'Cumulative intensity', side = 1, line = 2.25, cex = .9)
   mtext(text = 'Relative contribution (%)', side = 2, line = 2.25, cex = .9)
 
@@ -111,45 +111,41 @@ cumulIntensity <- function(sel, ras) {
 
   # ~~~~~~~~~~~~~~~~~~~ LEGEND ~~~~~~~~~~~~~~~~~~~ #
   # Param
-  y <- seq(.1,.9, length.out = (ncol(dr)+1))
-  y <- data.frame(y1 = y[1:ncol(dr)],
-                  y2 = y[2:(ncol(dr)+1)])
+  nDr <- nrow(driversList)
+  y <- seq(.1,.9, length.out = nDr+1)
+
+  y <- data.frame(y1 = y[1:nDr],
+                  y2 = y[2:(nDr+1)])
   x1 <- 0
   x2 <- .2
   y$mid <- (y$y1+y$y2)/2
   ygap <- .005
 
-  # Plot
-  par(mar = c(4,0,1,0))
-  plot0(xlim = 0:1, ylim = 0:1)
+  # Par
+  par(mar = c(4,0,0,0))
+
+  # Empty plot
+  plot(0, ann = FALSE, axes = FALSE, type = "n",
+        xlim = c(-.3, 1.1),
+        ylim = c(0, 1))
 
   # Polygons
-  for(i in 1:ncol(dr)) {
+  for(i in 1:nDr) {
     y1 <- y$y1[i]+ygap
     y2 <- y$y2[i]-ygap
     polygon(x = c(x1, x2, x2, x1, x1),
             y = c(y1, y1, y2, y2, y1),
-            col = sortNames$col[i],
+            col = driversList$col[i],
             border = '#000000')
   }
 
   # Text
-  text(x = rep(.25, ncol(dr)), y = y$mid, labels = sortNames$accr, adj = c(0,.5))
+  text(x = rep(.25, ncol(dr)), y = y$mid, labels = driversList$Drivers, adj = c(0,.5))
 
   # Groups
-  for(i in levels(sortNames$group)) {
-    id <- sortNames$group == i
+  for(i in levels(factor(driversList$Groups))) {
+    id <- driversList$Groups == i
     Y <- sum(range(y$mid[id])) / 2
-    text(x = .55, y = Y, labels = grNames$name[grNames$accr == i], adj = c(0,.5), font = 2)
-
+    text(x = -.3, y = Y, labels = i, adj = c(0,.5), font = 2)
   }
 }
-
-
-
-
-
-
-
-
-# dev.off()

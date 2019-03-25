@@ -68,6 +68,18 @@ couleurs <- reactive({
   )
 })
 
+# Plot height ----------------------------------------------------
+plotHeight <- reactive({
+  nSel <- length(input$layersTable) # Number of selected drivers
+  if (nSel == 0) {
+    '0'
+  } else if (nSel == 1) {
+    '300'
+  } else if (nSel > 1) {
+    '600'
+  }
+})
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INTERACTIVE MAP ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
@@ -263,7 +275,6 @@ HTML({
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CONDITIONAL PLOTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 output$condPlot <- renderPlot({
-
 # ~~~~~~~~~~~~~~~ PARAMETERS ~~~~~~~~~~~~~~~ #
 sel <- input$layersTable # Selected drivers
 type <- input$dataType # Selected data types between footprint and hotspots
@@ -282,8 +293,16 @@ if (nSel == 0) {
 # ~~~~~~~~~~~~ MULTIPLE DRIVERS ~~~~~~~~~~~~ #
 } else if(nSel > 1) {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-  if (type == 'footprint' && trans == 'transformed') marFd(sel, ras())
+  if (type == 'footprint' && trans == 'transformed') cumulIntensity(sel, ras())
   if (type == 'hotspots'  && trans == 'transformed') histHotspot(ras())
 }
 })
-}
+
+# wrap plotOutput in renderUI
+   output$uiPlot <- renderUI({
+       plotOutput("condPlot", height = plotHeight(), width = "100%")
+   })
+
+
+
+} # End
