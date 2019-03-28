@@ -129,22 +129,28 @@ will therefore be provided for all data layers used and shared on <em>eDrivers</
 <h7>Project leaders</h7>
 
 <ul>
-<li><h4>David Beauchesne
-    &nbsp;&nbsp;
+<li><h4>
     <a href="mailto:david.beauchesne@hotmail.com"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+    &nbsp;&nbsp;
+    David Beauchesne
+    &nbsp;&nbsp;
     <a href="https://github.com/david-beauchesne" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
     <a href="https://www.researchgate.net/profile/David_Beauchesne" target="_blank"><i class="ai ai-researchgate" aria-hidden="true"></i></a>
 <h4/></li>
 
-<li><h4>Philippe Archambault
-    &nbsp;&nbsp;
+<li><h4>
     <a href="mailto:philippe.archambault@bio.ulaval.ca"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+    &nbsp;&nbsp;
+    Philippe Archambault
+    &nbsp;&nbsp;
     <a href="https://www.researchgate.net/profile/Philippe_Archambault" target="_blank"><i class="ai ai-researchgate" aria-hidden="true"></i></a>
 <h4/></li>
 
-<li><h4>Dominique Gravel
-    &nbsp;&nbsp;
+<li><h4>
     <a href="mailto:dominique.gravel@usherbrooke.ca"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+    &nbsp;&nbsp;
+    Dominique Gravel
+    &nbsp;&nbsp;
     <a href="https://github.com/DominiqueGravel" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
 <h4/></li>
 </ul>
@@ -154,10 +160,10 @@ will therefore be provided for all data layers used and shared on <em>eDrivers</
 
 paste0(
 '<li><h4>',
-     experts$name, experts$lastName,
-    '&nbsp;&nbsp;
-    <a href="mailto:', experts$email, '"><i class="fa fa-envelope" aria-hidden="true"></i></a>
-<h4/></li>'),
+    '<a href="mailto:', experts$email, '"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+    &nbsp;&nbsp;',
+    experts$name, ' ', experts$lastName,
+'<h4/></li>'),
 
 '
 </ul>
@@ -244,4 +250,20 @@ paste0(
   </div>
   </div>
 </div>
+
+<br/>
+<h7>Private</h7>
+<br/>
+<div class="wrapper">
+  <div class="logo">
+    <div id="inrest">
+        <img src="INREST.png" alt="">
+    </div>
+    <div id="port7i">
+        <img src="port7i.png" alt="">
+    </div>
+  </div>
+  </div>
+</div>
+
 ')
