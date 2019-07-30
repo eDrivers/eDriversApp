@@ -1,8 +1,8 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~   Libraries   ~~~~~~~~~~~~~~~~~~~~~~~~~ #
+library(raster)
 library(leaflet)
 library(shiny)
 library(shinyjs)
-library(raster)
 library(magrittr)
 library(sf)
 library(rgdal)
@@ -23,7 +23,7 @@ source('./code/cumulIntensity.R')
 source('./code/cumulHotspots.R')
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~   TEXTS   ~~~~~~~~~~~~~~~~~~~~~~~~~ #
-load('./data/driversList.RData')
+# load('./data/driversList.RData')
 source('./texts/driversList.R')
 source('./texts/eDrivers.R')
 source('./texts/dataDescription.R')

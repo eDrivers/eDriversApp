@@ -120,7 +120,7 @@ observe({
       updateCheckboxGroupInput(session = session,
                                inputId = 'layersTable',
                                label = '',
-                               choiceNames = layers$Drivers,
+                               choiceNames = `layers$Drivers`,
                                choiceValues = layers$FileName)
    }
  })
