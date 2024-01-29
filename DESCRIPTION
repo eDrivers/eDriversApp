@@ -1,0 +1,20 @@
+Package: edriver
+Title: eDriver
+Version: 1.0.0
+Authors@R: 
+    person(given = "David",
+           family = "Beauchesne",
+           role = c("aut", "cre"),
+           email = "david.beauchesne@insileco.io")
+Description: Shiny application to visualize eDrivers platform data.
+License: GPLv3 + file LICENSE
+Imports: 
+    raster,
+    leaflet,
+    shiny,
+    shinyjs,
+    magrittr,
+    sf,
+    dplyr,
+    tidyr
+Encoding: UTF-8
