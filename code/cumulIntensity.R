@@ -5,7 +5,6 @@
 # library(raster)
 # library(magrittr)
 # library(sf)
-# library(rgdal)
 # # load('./data/marimekkoFd.RData')
 # # load('./data/drivers.RData')
 # load('./data/dr.RData')

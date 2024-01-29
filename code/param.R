@@ -5,7 +5,6 @@ library(shiny)
 library(shinyjs)
 library(magrittr)
 library(sf)
-library(rgdal)
 library(dplyr)
 library(tidyr)
 
